@@ -67,3 +67,5 @@ knapsack, value, p_object = fitness_function(path, distance_matrix, path_flag, c
 print(knapsack)
 print(value)
 print(p_object)
+
+
