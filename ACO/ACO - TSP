@@ -1,10 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
-
 import pandas as pd
 import xml.etree.ElementTree as ET
 import random
+
+xml_file = '/Users/charliewilkinson/Desktop/Exeter/Nature Inspired/brazil58.xml' # change path to your xml file
+
 
 def get_root(xml_file):
     '''
@@ -46,7 +47,7 @@ def generate_cost_data(root):
 
     return node_cost
 
-xml_file = '/Users/charliewilkinson/Desktop/Exeter/Nature Inspired/brazil58.xml' # change path to your xml file
+
 root = get_root(xml_file)
 node_cost = generate_cost_data(root)
 
