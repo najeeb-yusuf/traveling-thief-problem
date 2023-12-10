@@ -1,6 +1,72 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
+import pandas as pd
+import xml.etree.ElementTree as ET
+import random
+
+def get_root(xml_file):
+    '''
+    Parse through given xml file to obtain the root
+
+    Parameters:
+    - xml_file:  the xml file
+
+    Returns:
+    
+    element: Root of the file
+    '''
+    return ET.parse(xml_file).getroot()
+
+def generate_cost_data(root):
+    '''
+    Extract the raw data to create a dicitionary containing the information of all the possible costs from travelling from city i to city j
+            
+    Parameters:        
+    - root: the root of the xml file
+
+    Returns:
+
+    node_cost(dict) : Cities as key, list of all other cities to travel to as value
+    '''
+    node_cost = {}
+    city_id = 0
+
+    for vertex in root.find('graph').findall('vertex'):
+        city_connections = {}
+
+        for edge in vertex[0:]:
+            to_other_city = int(edge.text)
+            cost = float(edge.get('cost'))
+            city_connections[to_other_city] = cost
+
+        node_cost[city_id] = city_connections
+        city_id += 1
+
+    return node_cost
+
+xml_file = '/Users/charliewilkinson/Desktop/Exeter/Nature Inspired/brazil58.xml' # change path to your xml file
+root = get_root(xml_file)
+node_cost = generate_cost_data(root)
+
+
+# Get the maximum number of nodes (keys) in the dictionary
+num_nodes = max(node_cost.keys()) + 1
+
+# Create an empty matrix with dimensions num_nodes x num_nodes
+matrix = [[0.0 for _ in range(num_nodes)] for _ in range(num_nodes)]
+
+# Fill in the matrix using the dictionary values
+for i in range(num_nodes):
+    for j in range(num_nodes):
+        if j in node_cost[i]:
+            matrix[i][j] = node_cost[i][j]
+
+# Print the resulting matrix
+matrix = np.array(matrix)
+
+
 def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporation_rate, Q):
     '''
 
