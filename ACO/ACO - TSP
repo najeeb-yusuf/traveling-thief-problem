@@ -67,6 +67,7 @@ for i in range(num_nodes):
 # Print the resulting matrix
 matrix = np.array(matrix)
 
+results_log = [] # to store results
 
 def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporation_rate, Q):
     '''
