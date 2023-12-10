@@ -1,9 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
-def distance(point1, point2):
-    return np.sqrt(np.sum((point1 - point2)**2))
 
 def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporation_rate, Q):
     '''
@@ -11,7 +7,7 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
     Parameters
     ------------
     points: list
-        list of cities
+        city x, y coordinates
 
     n_ants: int
         Number of ants included in colony
@@ -37,8 +33,7 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
     --------
     '''
 
-
-    n_points = len(points)
+    n_points = points.shape[0] 
     pheromone = np.ones((n_points, n_points))  # Inital array of pheromones - all set as one
     best_path = None
     best_path_length = np.inf                  
@@ -53,24 +48,27 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
             visited[current_point] = True                   # Visited city tracker
             path = [current_point]
             path_length = 0
-            
+            #print(current_point)
             while False in visited:        # Check all cities
                 unvisited = np.where(np.logical_not(visited))[0]      # Unvisted city array
                 probabilities = np.zeros(len(unvisited))              # Empty probability list of traversing to each unvisited city
-                
                 # Calculate the probabilites of traveling to each city
                 for i, unvisited_point in enumerate(unvisited):
                     # Transition rule
-                    probabilities[i] = pheromone[current_point, unvisited_point]**alpha / distance(points[current_point], points[unvisited_point])**beta
-                
+                    probabilities[i] = pheromone[current_point, unvisited_point]**alpha / points[current_point, unvisited_point]**beta
+                                    
                 probabilities /= np.sum(probabilities)
                 
                 next_point = np.random.choice(unvisited, p=probabilities) # Randomly select next city using the probabilities
                 path.append(next_point)
-                path_length += distance(points[current_point], points[next_point])
+                path_length += points[current_point,next_point]
                 visited[next_point] = True
                 current_point = next_point
             
+            # Return to start city
+            path.append(path[0])
+            path_length += points[path[0],path[-1]]
+            # Store path and length
             paths.append(path)
             path_lengths.append(path_length)
             
@@ -86,7 +84,35 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
             for i in range(n_points-1):
                 pheromone[path[i], path[i+1]] += Q/path_length  # Update pheromones on each city to city path
             pheromone[path[-1], path[0]] += Q/path_length       # Update pheromones on each city to city path
+        return best_path, best_path_length
+
 
 # Example usage:
-points = np.random.rand(10, 3) # Generate 10 random 3D points
-ant_colony_optimization(points, n_ants=10, n_iterations=100, alpha=1, beta=1, evaporation_rate=0.5, Q=1)
+n_ants = 100
+n_iterations = 50000
+alpha = 1
+beta = 4
+evaporation_rate = 0.2
+Q = 1
+
+for _ in range(5):
+    results = pd.DataFrame()
+    path, path_length  = ant_colony_optimization(matrix, n_ants=n_ants, n_iterations=n_iterations, alpha=alpha, beta=beta, evaporation_rate=evaporation_rate, Q=Q)
+
+    # Create a dictionary with the collected data
+    entry = {
+        '# ants': n_ants,
+        '# Iterations': n_iterations,
+        'alpha': alpha,
+        'beta': beta,
+        'Evaporation Rate': evaporation_rate,
+        'Q': Q,
+        'Path': [path],
+        'Path Length': [path_length]
+    }
+
+    # Append the entry to the list
+    results_log.append(entry)
+
+    # Concatenate the list of dictionaries into a DataFrame
+    results = pd.concat([pd.DataFrame.from_dict(d) for d in results_log], ignore_index=True)
