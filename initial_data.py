@@ -124,7 +124,7 @@ def mutate(individual, mutation_rate):
             mutated[i] = 1 - mutated[i]
     return mutated
 
-def genetic_algorithm(items, max_weight, population_size=50, max_generation=100, mutation_rate=0.1, top_items=10):
+def genetic_algorithm(items, max_weight, population_size=50, max_generation=1000, mutation_rate=0.1, top_items=10):
     num_items = len(items)
     population = initialize_population(population_size, num_items, max_weight)
 
