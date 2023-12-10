@@ -38,3 +38,17 @@ def update_best_non_dominating(current_best, new_solution):
             updated_best[index] = new_solution
 
     return updated_best
+  
+    def identify_pareto_front(solutions):
+    pareto_front = []
+
+    for i, solution in enumerate(solutions):
+        dominated = False
+        for other_solution in solutions[:i] + solutions[i+1:]:
+            if is_dominating(other_solution, solution):
+                dominated = True
+                break
+        if not dominated:
+            pareto_front.append(solution)
+
+    return pareto_front
