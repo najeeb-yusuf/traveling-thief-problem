@@ -28,10 +28,10 @@ def initial_data(filepath: str) -> None:
 
             ITEM_BOOL = False
             for line in lines:
-                # Remove leading and trailing whitespace characters
+                # 去除开头和结尾的空白字符
                 line = line.strip()
 
-                # Add node coordinates to a 2D array
+                # 将节点坐标添加到二维数组
                 if CITY_BOOL:
                     if line.startswith("ITEMS SECTION"):
                         CITY_BOOL = False
@@ -46,7 +46,7 @@ def initial_data(filepath: str) -> None:
                         ITEMS_SECTION.append([int(parts[0]), int(parts[1]), int(parts[2]), int(parts[3])])
                         continue
 
-                # Parse file content based on keywords
+                # 根据关键词来解析文件内容
                 if line.startswith("DIMENSION"):
                     DIMENSION = int(line.split(":")[1].strip())
                 elif line.startswith("NUMBER OF ITEMS"):
@@ -67,9 +67,9 @@ def initial_data(filepath: str) -> None:
         initial_city_matrix(NODE_COORD_SECTION)
 
     except FileNotFoundError:
-        print(f"Document '{filepath}' not found.")
+        print(f"文件 '{filepath}' 未找到.")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"发生错误: {e}")
 
 def initial_city_matrix(NODE_COORD_SECTION):
 
@@ -187,7 +187,7 @@ def get_items_list():
         choose_weight_combination[i] = temp_item_weight_list
         choose_profit_combination[i] = total_profit
 
-file_path = './resources/a280-n279.txt'
+file_path = './a280-n1395.txt'
 initial_data(file_path)
 
 print("DIMENSION:", DIMENSION)

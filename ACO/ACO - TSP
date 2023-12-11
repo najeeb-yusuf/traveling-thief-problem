@@ -1,73 +1,34 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import xml.etree.ElementTree as ET
 import random
 
-xml_file = '/Users/charliewilkinson/Desktop/Exeter/Nature Inspired/brazil58.xml' # change path to your xml file
+def distance(point1, point2):
+    return np.sqrt(np.sum((point1 - point2)**2))
+
+def update_speed(current_weight):
+    return velocity_max - (current_weight / Q) * (velocity_max - velocity_min)
 
 
-def get_root(xml_file):
-    '''
-    Parse through given xml file to obtain the root
+def cities_stolen(knapsack, assigned_nodes):
+    if len(knapsack) != len(assigned_nodes):
+        raise ValueError("Knapsack and assigned nodes must be of same length§")
+    cities = {}
+    item = 0
+    for stolen,city in zip(knapsack,assigned_nodes):
+        if stolen:
+            if city in cities:
+                cities[city].append(item)
+            else:
+                cities[city] = [item]
+    return cities
 
-    Parameters:
-    - xml_file:  the xml file
 
-    Returns:
+def time(point1, point2,curr_weight, capacity):
+    new_speed = update_speed(curr_weight)
+    time = distance(point1,point2)
     
-    element: Root of the file
-    '''
-    return ET.parse(xml_file).getroot()
-
-def generate_cost_data(root):
-    '''
-    Extract the raw data to create a dicitionary containing the information of all the possible costs from travelling from city i to city j
-            
-    Parameters:        
-    - root: the root of the xml file
-
-    Returns:
-
-    node_cost(dict) : Cities as key, list of all other cities to travel to as value
-    '''
-    node_cost = {}
-    city_id = 0
-
-    for vertex in root.find('graph').findall('vertex'):
-        city_connections = {}
-
-        for edge in vertex[0:]:
-            to_other_city = int(edge.text)
-            cost = float(edge.get('cost'))
-            city_connections[to_other_city] = cost
-
-        node_cost[city_id] = city_connections
-        city_id += 1
-
-    return node_cost
-
-
-root = get_root(xml_file)
-node_cost = generate_cost_data(root)
-
-
-# Get the maximum number of nodes (keys) in the dictionary
-num_nodes = max(node_cost.keys()) + 1
-
-# Create an empty matrix with dimensions num_nodes x num_nodes
-matrix = [[0.0 for _ in range(num_nodes)] for _ in range(num_nodes)]
-
-# Fill in the matrix using the dictionary values
-for i in range(num_nodes):
-    for j in range(num_nodes):
-        if j in node_cost[i]:
-            matrix[i][j] = node_cost[i][j]
-
-# Print the resulting matrix
-matrix = np.array(matrix)
-
-results_log = [] # to store results
+    
 
 def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporation_rate, Q):
     '''
@@ -75,7 +36,7 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
     Parameters
     ------------
     points: list
-        city x, y coordinates
+        list of cities
 
     n_ants: int
         Number of ants included in colony
@@ -101,7 +62,8 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
     --------
     '''
 
-    n_points = points.shape[0] 
+
+    n_points = len(points)
     pheromone = np.ones((n_points, n_points))  # Inital array of pheromones - all set as one
     best_path = None
     best_path_length = np.inf                  
@@ -116,27 +78,24 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
             visited[current_point] = True                   # Visited city tracker
             path = [current_point]
             path_length = 0
-            #print(current_point)
+            
             while False in visited:        # Check all cities
                 unvisited = np.where(np.logical_not(visited))[0]      # Unvisted city array
                 probabilities = np.zeros(len(unvisited))              # Empty probability list of traversing to each unvisited city
+                
                 # Calculate the probabilites of traveling to each city
                 for i, unvisited_point in enumerate(unvisited):
                     # Transition rule
-                    probabilities[i] = pheromone[current_point, unvisited_point]**alpha / points[current_point, unvisited_point]**beta
-                                    
+                    probabilities[i] = pheromone[current_point, unvisited_point]**alpha / distance(points[current_point], points[unvisited_point])**beta
+                
                 probabilities /= np.sum(probabilities)
                 
                 next_point = np.random.choice(unvisited, p=probabilities) # Randomly select next city using the probabilities
                 path.append(next_point)
-                path_length += points[current_point,next_point]
+                path_length += distance(points[current_point], points[next_point])
                 visited[next_point] = True
                 current_point = next_point
             
-            # Return to start city
-            path.append(path[0])
-            path_length += points[path[0],path[-1]]
-            # Store path and length
             paths.append(path)
             path_lengths.append(path_length)
             
@@ -152,8 +111,37 @@ def ant_colony_optimization(points, n_ants, n_iterations, alpha, beta, evaporati
             for i in range(n_points-1):
                 pheromone[path[i], path[i+1]] += Q/path_length  # Update pheromones on each city to city path
             pheromone[path[-1], path[0]] += Q/path_length       # Update pheromones on each city to city path
-        return best_path, best_path_length
 
+
+
+def distance(point1, point2):
+    return np.sqrt(np.sum((point1 - point2)**2))
+
+def update_speed(current_weight, velocity_max, velicity_min, Q):
+    return velocity_max - (current_weight / Q) * (velocity_max - velocity_min)
+
+
+def cities_stolen(knapsack, assigned_nodes):
+    if len(knapsack) != len(assigned_nodes):
+        raise ValueError("Knapsack and assigned nodes must be of same length§")
+    cities = {}
+    item = 1
+    for stolen,city in zip(knapsack,assigned_nodes):
+        if stolen:
+            if city in cities:
+                cities[city].append(item)
+            else:
+                cities[city] = [item]
+    return cities
+
+
+def time(point1, point2, knapsack, visited_cities,curr_weight):
+    """
+    This function returns the time it takes to get from point1 to point2 given the current weight of the knapsack and the distance between the two  
+    """
+    new_speed = update_speed(curr_weight)
+    time = distance(point1,point2)
+    
 
 # Example usage:
 n_ants = 100

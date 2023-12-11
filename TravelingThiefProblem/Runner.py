@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from Utils import readTxtFile, write_solutions, print_solutions
 from AntColonyOptimization import AntColonyOptimization as ACO
-from GeneticAlgorithm import GeneticAlgorithm as GA
+from genetic_algorithm import GeneticAlgorithm as GA
 
 
 Instances = [
@@ -34,8 +34,7 @@ for instance in Instances:
     problem = readTxtFile(instance)
     aco_algorithm = ACO(problem)
     nds = aco_algorithm.solve()
-    # ga_algorithm = GA(problem)
-    # nds = ga_algorithm.solve()
+
     print('Non-dominate:')
     for s in nds:
         print(s.time, s.profit, s.weight)
