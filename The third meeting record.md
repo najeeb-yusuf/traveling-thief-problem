@@ -1,54 +1,55 @@
-# The third meeting record
+Meeting No. 3
 
-Date:  10:00 a.m. 27th Nov, 2023
+Group Number : N 
+Date: 8th Dec, 2023
+Time:  10 am to 12pm
+Location: Virtual on Microsoft Teams
 
-Participants: 
+Attendees:
 
-- WILKINSON, Charlie
+WILKINSON, Charlie
+RAHATAL, Ritesh Sunil
+JIN, Hongjin
+WANG, Peitao
+YUSUF, Najeeb
+LIU, Sihang
 
-- RAHATAL, Ritesh Sunil
+Review of Previous Minutes:
 
-- JIN, Hongjin
+YUSUF, Najeeb presented his local search.
+WILKINSON, Charlie and RAHATAL, Ritesh Sunil presented the ACO optimizer.
 
-- WANG, Peitao
+Discussion on adapting ACO for the Travelling Thief Problem:
+Identified ACO being more suited for the Travelling Salesman Problem.
+Agreed upon adapting the probabilities calculator to incorporate fitness of routes rather than distance.
+Decision to update pheromones to favour routes based on fitness.
 
-- YUSUF, Najeeb
+Testing:
+Plan to test different sections of the algorithm developed so far to assess performance.
+Includes testing of local search, ACO, and others.
 
-- LIU, Sihang
+Work Distribution:
 
-1. **Optimization Algorithms Discussion:**
-   - Exploration of Pareto front for challenging problems.
-   - Discussion of machine learning algorithms, focusing on simplicity for a group project.
-   - Mention of frustration with a grade-centric approach.
-   - Introduces hybrid algorithms for the traveling salesman and knapsack problems.
+1. Research ant optimization algorithms for solving the problem using ACO on the Burma14 database.
 
-2. **Solving Optimization Problems with Different Algorithms:**
-   - Discuss KNP and TSP problems.
-   - Emphasis on using diverse algorithms and combining them for the best solution.
-   - Proposal to align profit and time with the TSP problem.
-   
-3. **Local Search for Optimization:**
-   - Suggest using local search for the knapsack problem.
-   - Importance of a function generating prospective routes.
-   - Proposal to use local search for the knapsack problem.
+WILKINSON, Charlie
+RAHATAL, Ritesh Sunil
 
-4. **Different Techniques for Optimization:**
-   
-   - Discussion on using various search algorithms, including local search and different search for canopy.
-   - Consideration of a volume indicator for balancing minimum values in optimization.
-   
-6. **Optimizing Search Algorithms:**
-   
-   - Discussion on local and different search methods.
-   - Suggestion to use past data to determine the best solution.
-   - Exploration of connecting ACO and external solutions for improved fitness function.
-   
-7. **Dynamic Programming and Local Search:**
-   
-   - Team discusses local search.
-   
-   - Focus on completing functions and updating GitHub.
-   
+2. Adapt the ACO to use overall fitness in probability calculations instead of distance.
+
+YUSUF, Najeeb
+
+3. Develop the fitness function, add notes, and improve clarity.
+
+LIU, Sihang
+JIN, Hongjin
+4. Begin working on the report, understand the deliverables.
+
+WANG, Peitao
+
+
+Next Meeting:
+- Date: 11th Dec, 2023
      
    
      
