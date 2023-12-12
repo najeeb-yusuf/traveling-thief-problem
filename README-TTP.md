@@ -91,7 +91,8 @@ The purpose of this project is to address TTP issues. We implemented two separat
 
 6. The results are saved to the appropriate data file according to the contest criteria. and stored in a folder named results. Like this: 
 
-   ![](C:\Users\hang1\Desktop\微信截图_20231212183115.png)
+  ![image](https://github.com/najeeb-yusuf/traveling-thief-problem/assets/150862149/9ffa4ff6-551c-42a6-8014-e49b1ebea079)
+
 
    
 
@@ -170,10 +171,11 @@ By modifying the variable values above, different data experiments have been con
   - "team_name_problem_name.x": Save paths and item picking scheme
 
     Like this:
+![image](https://github.com/najeeb-yusuf/traveling-thief-problem/assets/150862149/1fbaaf79-62f1-494a-88f1-a34104c7b6fe)
+![image](https://github.com/najeeb-yusuf/traveling-thief-problem/assets/150862149/66417194-bbdd-4694-8447-c9cb40a5cc83)
 
-    <img src="C:\Users\hang1\Desktop\微信截图_20231212183419.png" style="zoom:67%;" />
 
-    ![](C:\Users\hang1\Desktop\微信截图_20231212183458.png)
+    
 
  
 
@@ -181,7 +183,7 @@ By modifying the variable values above, different data experiments have been con
 
 If don't need the set the parameters that you want, just run the python file(Runner.py)
 
-<img src="C:\Users\hang1\AppData\Roaming\Typora\typora-user-images\image-20231212183541059.png" alt="image-20231212183541059" style="zoom:67%;" />
+![image](https://github.com/najeeb-yusuf/traveling-thief-problem/assets/150862149/acb6e5a6-19be-4e5c-8759-05d642309143)
 
 
 
