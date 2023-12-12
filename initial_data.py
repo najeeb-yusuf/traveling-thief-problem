@@ -108,6 +108,7 @@ def initialize_population(population_size, num_items, max_weight):
         print(len(population))
         round+=1
         if round > 10 and len(population)==0:
+            round = 0
             pos = [pos[0]+0.1 ,pos[1]-0.1]
     return population
 
