@@ -98,11 +98,17 @@ def get_city_distance(city_index_a, city_index_b):
 # KNP EA solution
 def initialize_population(population_size, num_items, max_weight):
     population = []
+    pos = [0.5, 0.5]
+    round = 0
     while len(population) < population_size:
-        individual = np.random.choice([0, 1], size=num_items)
+        individual = np.random.choice([0, 1], size=num_items, p = pos)
         total_weight = np.sum(np.array(ITEMS_SECTION)[:, 2] * individual)
         if total_weight <= max_weight:
             population.append(individual)
+        print(len(population))
+        round+=1
+        if round > 10 and len(population)==0:
+            pos = [pos[0]+0.1 ,pos[1]-0.1]
     return population
 
 def calculate_fitness(individual, items):
