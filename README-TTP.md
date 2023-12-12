@@ -1,10 +1,10 @@
-# README: Traveling Thief Problem (TTP) with Genetic Algorithm and Ant Colony Optimal
+# README: Traveling Thief Problem (TTP) with Genetic Algorithm and Ant Colony Optimiztion
 
  
 
 # Overview
 
-The purpose of this project is to address TTP issues. We implemented two separate algorithms: the ACO as well as the GA algorithm to compare the results.
+The purpose of this project is to attempt to solve the TTP. We implement two separate algorithms: Ant Colony Optimization (ACO) and a GA algorithm to solve the problem.
 
  
 
